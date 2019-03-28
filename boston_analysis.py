@@ -1,5 +1,10 @@
 #!usr/bin/env python
 
+from sklearn.model_selection import cross_val_predict
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.metrics import r2_score
+from sklearn import linear_model
+from sklearn.metrics import mean_squared_error
 from sklearn.datasets import load_boston
 import pandas as pd
 import numpy as np
@@ -12,7 +17,8 @@ from sklearn.model_selection import train_test_split
 
 #1. Load & Visualize data
 boston_data = load_boston()
-df = pd.DataFrame(data= boston_data['data'], columns= boston_data['feature_names'])
+df = pd.DataFrame(data=boston_data['data'],
+                  columns=boston_data['feature_names'])
 df["MEDV"] = boston_data['target']
 
 
@@ -56,8 +62,10 @@ print("Creating histograms and scatter plots!")
 
 for col in df:
     idx = df.columns.get_loc(col)
-    sns.distplot(df[col].values,rug=False,bins=50).set_title("Histogram of {0}".format(col))
-    plt.savefig("./Figures/Cols-Histograms/{0}_{1}.png".format(idx,col), dpi=100)
+    sns.distplot(df[col].values, rug=False, bins=50).set_title(
+        "Histogram of {0}".format(col))
+    plt.savefig(
+        "./Figures/Cols-Histograms/{0}_{1}.png".format(idx, col), dpi=100)
     plt.close()
 
 #2.3.2 Scatterplot and a regression line for each column with 'MEDV'
@@ -67,7 +75,8 @@ for col in df:
     plt.xlabel('Value of {0}'.format(col))
     plt.ylabel('Value of MEDV')
     plt.title('Scatter plot of {0} and MEDV'.format(col))
-    plt.savefig("./Figures/Cols-Scatters/{0}_{1}_MEDV".format(idx,col), dpi=200)
+    plt.savefig(
+        "./Figures/Cols-Scatters/{0}_{1}_MEDV".format(idx, col), dpi=200)
     plt.close()
 
 #2.3.3 Scatterplot for +3 features
@@ -106,20 +115,19 @@ for col in sorted_df:
         xaxis=dict(title='{0}, {1}, {2}'.format(
             maxcor_col, mincor_col, col)),
         plot_bgcolor="#f3f3f3"
-        )
+    )
 fig = go.Figure(data=data, layout=layout)
-plot(fig, filename="./Figures/multiple_features_plotly/{0}_{1}.html".format(idx, col), auto_open=False)
+plot(fig, filename="./Figures/multiple_features_plotly/{0}_{1}.html".format(
+    idx, col), auto_open=False)
 
 #3. Apply Regressorss
 print("Creating and fitting Regression Model!")
 
 #3.1 Split the data into training and testing
 df_train, df_test, medv_train, medv_test = train_test_split(boston_data["data"],
- boston_data["target"], shuffle = False, test_size=0.3)
+                                                            boston_data["target"], random_state=0)
 
 #3.2 Linear Regression
-from sklearn.metrics import mean_squared_error
-from sklearn import linear_model
 
 #3.2.1 Make a model and fit the values
 lr_reg = linear_model.LinearRegression()
@@ -129,16 +137,16 @@ predicted_medv = lr_reg.predict(df_test)
 expected_medv = medv_test
 
 #3.2.2 Linear Regression performance
-from sklearn.metrics import r2_score
 
-lr_mse = round(mean_squared_error(expected_medv, predicted_medv),3)
-lr_r2 = round(r2_score(expected_medv, predicted_medv),5)
+lr_mse = round(mean_squared_error(expected_medv, predicted_medv), 3)
+lr_r2 = round(r2_score(expected_medv, predicted_medv), 5)
 
 plt.figure(figsize=(16, 9), dpi=200)
 plt.subplot(2, 2, 1)
 sns.regplot(expected_medv, predicted_medv, color='g')
 plt.ylabel('Predicted Value')
-plt.title('Linear Regression.\nMSE= {0} , R-Squared= {1}'.format(lr_mse,lr_r2))
+plt.title(
+    'Linear Regression.\nMSE= {0} , R-Squared= {1}'.format(lr_mse, lr_r2))
 
 #3.3 Bayesian Ridge Linear Regression
 
@@ -149,12 +157,13 @@ br_reg.fit(df_train, medv_train)
 predicted_medv = br_reg.predict(df_test)
 
 #3.3.2 Model performance
-br_mse =  round(mean_squared_error(expected_medv, predicted_medv),3)
-br_r2 = round(r2_score(expected_medv, predicted_medv),5)
+br_mse = round(mean_squared_error(expected_medv, predicted_medv), 3)
+br_r2 = round(r2_score(expected_medv, predicted_medv), 5)
 
 plt.subplot(2, 2, 2)
 sns.regplot(expected_medv, predicted_medv, color='red')
-plt.title('Bayesian Ridge Linear Regression.\nMSE= {0} , R-Squared= {1}'.format(br_mse, br_r2))
+plt.title(
+    'Bayesian Ridge Linear Regression.\nMSE= {0} , R-Squared= {1}'.format(br_mse, br_r2))
 
 #3.4 Lasso
 
@@ -165,80 +174,92 @@ lasso_reg.fit(df_train, medv_train)
 predicted_medv = lasso_reg.predict(df_test)
 
 #3.4.2 Model performance
-lasso_mse =  round(mean_squared_error(expected_medv, predicted_medv),3)
-lasso_r2 = round(r2_score(expected_medv, predicted_medv),5)
+lasso_mse = round(mean_squared_error(expected_medv, predicted_medv), 3)
+lasso_r2 = round(r2_score(expected_medv, predicted_medv), 5)
 
 plt.subplot(2, 2, 3)
 sns.regplot(expected_medv, predicted_medv, color='orange')
 plt.xlabel('Expected Value')
 plt.ylabel('Predicted Value')
-plt.title('Lasso Linear Regression.\nMSE= {0} , R-Squared= {1}'.format(lasso_mse, lasso_r2))
+plt.title(
+    'Lasso Linear Regression.\nMSE= {0} , R-Squared= {1}'.format(lasso_mse, lasso_r2))
 
 #3.5 Gradient boosted tree
-from sklearn.ensemble import GradientBoostingRegressor
 
 #3.5.1 Make a model and fit the values
-gb_reg= GradientBoostingRegressor(loss='ls')
+gb_reg = GradientBoostingRegressor(loss='ls')
 gb_reg.fit(df_train, medv_train)
 
 predicted_medv = gb_reg.predict(df_test)
 
 #3.5.2 Gradient Boosting performance
-gb_mse = round(mean_squared_error(expected_medv, predicted_medv),3)
-gb_r2 = round(r2_score(expected_medv, predicted_medv),5)
+gb_mse = round(mean_squared_error(expected_medv, predicted_medv), 3)
+gb_r2 = round(r2_score(expected_medv, predicted_medv), 5)
 
 plt.subplot(2, 2, 4)
 sns.regplot(expected_medv, predicted_medv, color='b')
 plt.xlabel('Expected Value')
-plt.title('Gradient Boosting.\nMSE= {0} , R-Squared= {1}'.format(gb_mse,gb_r2))
+plt.title(
+    'Gradient Boosting.\nMSE= {0} , R-Squared= {1}'.format(gb_mse, gb_r2))
 plt.tight_layout()
 plt.savefig("./Figures/Regression_Models.png")
 plt.close()
 
-d = {'Model':['Linear Regression', 'Bayesian Ridge' ,'Lasso', 'Gradient Boosting'],
-    'Variable': [lr_reg, br_reg, lasso_reg, gb_reg],
-    'MSE': [lr_mse, br_mse, lasso_mse, gb_mse],
-    'R-Squared': [lr_r2, br_r2, lasso_r2, gb_r2]
-    }
+
+#4. Find/Build the best regressor/Model
+d = {'Model': ['Linear Regression', 'Bayesian Ridge', 'Lasso', 'Gradient Boosting'],
+     'Variable': [lr_reg, br_reg, lasso_reg, gb_reg],
+     'MSE': [lr_mse, br_mse, lasso_mse, gb_mse],
+     'R-Squared': [lr_r2, br_r2, lasso_r2, gb_r2]
+     }
 
 results_df = pd.DataFrame(data=d)
 print(results_df)
 
-#4. Choose the best regressor
-#4.1 Minimum MSE or Maximum R2
+#Find the minimum MSE
 min_error_df = results_df.sort_values(by=['MSE'])
 min_error_df = min_error_df.reset_index(drop=True)
 
-best_regressor = min_error_df.loc[0,"Model"]
+best_regressor = min_error_df.loc[0, "Model"]
 print("Best Regressor: ", best_regressor)
 
-#4.2 Apply Cross Validation
+#5 Apply Cross Validation
+#5.1 Choose different values of k-fold
+k_models_mse = []
+k_fold = [3, 5, 7, 10, 15, 20]
 
-from sklearn.model_selection import cross_val_predict
-
-cv3_predicted_medv = cross_val_predict(min_error_df.loc[0,"Variable"], df_test, medv_test, cv=3)
-cv5_predicted_medv = cross_val_predict(min_error_df.loc[0,"Variable"], df_test, medv_test, cv=5)
-cv10_predicted_medv = cross_val_predict(min_error_df.loc[0,"Variable"], df_test, medv_test, cv=10)
-cv20_predicted_medv = cross_val_predict(min_error_df.loc[0,"Variable"], df_test, medv_test, cv=20)
-
-cvn_models = [cv3_predicted_medv, cv5_predicted_medv, cv10_predicted_medv, cv20_predicted_medv]
-cvn=[3,5,10,20]
+colors = sns.color_palette("Paired")
 plt.figure(figsize=(16, 9), dpi=200)
 
-for idx,model in enumerate(cvn_models):
+#5.2 Foreach k in k_fold;
+    #5.2.1 create a cross validation model
+    #5.2.2 calculate MSE and save it to a list
+    #5.2.3 Plot expected vs predicted values
 
-    cv_mse =  round(mean_squared_error(expected_medv, model),3)
-    
-    plt.subplot(2, 2, idx+1)
-    sns.regplot(x=expected_medv ,y=model, color='purple')
-    
+for idx, k in enumerate(k_fold):
+
+    k_model = cross_val_predict(min_error_df.loc[0, "Variable"], df_test, medv_test, cv=k)
+    k_model_mse = round(mean_squared_error(expected_medv, k_model), 3)
+    k_models_mse.append(k_model_mse)
+
+    plt.subplot(2, 3, idx+1)
+    sns.regplot(x=expected_medv, y=k_model, color=colors[idx])
+
     plt.xlabel("Expected")
     plt.ylabel("Predicted")
-    plt.title("CV = {0} \n MSE= {1}".format(cvn[idx], cv_mse))
-
+    plt.title("K = {0} \n MSE= {1}".format(k, k_model_mse))
 
 plt.tight_layout()
 plt.savefig("./Figures/gradient_boosting_cv.png")
 plt.close()
+
+#5.3 Choose best k (Minimum MSE) 
+min_mse_idx = k_models_mse.index(min(k_models_mse))
+best_k = k_fold[min_mse_idx]
+
+#5.4 Save them to a file for later comparison
+best_k_file = open('./Figures/best_k.txt','a+')
+best_k_file.write(str(best_k)+',')
+best_k_file.close()
 
 print("-------------- FINISHED! --------------")
