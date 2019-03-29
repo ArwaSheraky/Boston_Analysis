@@ -20,16 +20,9 @@ This repository includes:
 ## Research Question
 Knowing the average prices of houses and the features that could affect them, could we predict the average prices of new houses, having their 13 features? What would be the accuracy of that prediction?
 
-### Abstract
-
-- opportunity (what data do we have)
-- challenge (what is the "problem" we could solve with this dataset)
-- action (how will we try to solve this problem/answer this question)
-- resolution (what did we end up producing)
-
 ### Introduction
 The dataset used in this project, is publically shared on scikit-learn [datasets](https://scikit-learn.org/stable/datasets/index.html#boston-dataset), which could be explicitly imported into any python app, from `sklearn` library.
-The data was collected in suburbs of Boston from the 1970s, including 13 features, with the predicted price as the 14th feature/column:
+The data was collected in suburbs of Boston from the 1970s, including 13 features of 506 instances:
 
 ```
 CRIM: Per capita crime rate by town
@@ -48,13 +41,11 @@ LSTAT: Percentage of lower status of the population
 MEDV: Median value of owner-occupied homes in $1000s
 ```
 
-Here's a simple pseudocode of what we're doing in this analysis: [Pseudocode](Pseudocode.md), but the main goal of this project, is to build a strong regression model to predict the prices of houses, based on previous trainig data, using the 13 features of each house.
+Here's a simple pseudocode of what we're doing in this analysis: [Pseudocode](Pseudocode.md), but the main goal of this project, is to build a strong regression model to predict the prices of houses, based on existed trainig data, using the 13 features of each house. The following will explain how we tried to acheive this goal.
 
 ### Methods
 
-* By applying different regressors, comparing their performance using [R-squared](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html) and [MSE](https://en.wikipedia.org/wiki/Mean_squared_error), we can find the best one to solve the problem.
-
-* The used regressors are:
+* By applying different regressors, comparing their performance using [R-squared](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html) and [MSE](https://en.wikipedia.org/wiki/Mean_squared_error), we can find the best one to solve the problem. The used regressors are:
     * [Linear Regression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html#sklearn.linear_model.LinearRegression).
     * [Bayesian Ridge](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.BayesianRidge.html#sklearn.linear_model.BayesianRidge).
     * [Lasso](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lasso.html#sklearn.linear_model.Lasso).
@@ -70,27 +61,26 @@ Here's a simple pseudocode of what we're doing in this analysis: [Pseudocode](Ps
 |:---------------|:---------------|:---------------|:---------------|
 | MSE | 24.275 | 25.968 | 32.288 | 8.355 |
 
-
 As shown in the figure and performance table, **Gradient Boosting Regressor** was the best model to predict the average prices as close to the real values as possible, with minimum MSE, maximum R-Squared, and has a very high distiction!
+
+
 
 ![K-fold](./Figures/2_Gradient_Boosting_CV.png)
 In this figure, comparing 6 different values of k-fold, `k = 10` has the least MSE and most accurate results.
-
-So, our regressor is **Gradient Bossting** and for Cross Validation we have **k=10**. Using these data we can easily build the best model that could predict the prices values as close as possible. And this is our final result:
+So, our regressor is **Gradient Bossting** and for Cross Validation we have **k=10**. Using these data we can easily build the best model that could predict the prices values as close as possible. And this is the final model, with `MSE = 17.062`:
 
 ![Final Model](./Figures/3_Final_Model.png)
 
-- The algorithm of the Gradient Boosting regressor can be found [here](https://en.wikipedia.org/wiki/Gradient_boosting#Algorithm), and how the regressor works on python is on scikit-learn documentation, mentioned above.
 
+- The algorithm of the Gradient Boosting regressor can be found [here](https://en.wikipedia.org/wiki/Gradient_boosting#Algorithm), and how the regressor works on python is on scikit-learn documentation, mentioned above.
 - The Cross Validation method used here, is [`cross_val_predict`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_predict.html#sklearn.model_selection.cross_val_predict), built by scikit-learn.
 
 ### Discussion
 
-- interpretation of whether your method "solved" the problem
-- suggested next step that could make it better.
+Gradient Boosting was the best among 4 randomly chosen regressors, with a `Mean Square Error = 17.062`. There might be or there're certainly other better methods to solve this problem, with a less chance of error and a better accuracy. These methods could be discoverd by understanding the dataset and studying Data Science field in a deeper way.
 
 ### Libraries
-The main used libraries in this analysis are:
+- The main used libraries in this analysis are:
     - `pandas` and `numpy`: Creating Dataframes and calculating statistical summary.
     - `matplotlib`, `seaborn` and `plotly`: Plotting histograms, scatterplots and regression lines.
     - `sklearn`: Importing the dataset, splitting data, applying regressors and CV and calculating performance.
