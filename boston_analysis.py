@@ -267,12 +267,11 @@ print("Best k: ", best_k)
 # 6. Build the final Model
 final_model = cross_val_predict(
     min_error_df.loc[0, "Variable"], df_test, medv_test, cv=best_k)
-model_accuracy = round(r2_score(expected_medv, final_model), 2)
 
 sns.regplot(x=expected_medv, y=final_model, color='purple')
 plt.xlabel("Expected")
 plt.ylabel("Predicted")
-plt.title("Final Model: Gradient Boosting.\n Accuracy: {0}".format(model_accuracy))
+plt.title("Final Model: Gradient Boosting.\n CV, k= {0}".format(best_k))
 
 plt.savefig("./Figures/3_Final_Model.png", dpi=200)
 plt.close()
