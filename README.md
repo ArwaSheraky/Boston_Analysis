@@ -61,14 +61,14 @@ Here's a simple pseudocode of what we're doing in this analysis: [Pseudocode](Ps
 |:---------------|:---------------|:---------------|:---------------|:---------------|
 | MSE | 24.275 | 25.968 | 32.288 | 8.355 |
 
-As shown in the figure and performance table, **Gradient Boosting Regressor** was the best model to predict the average prices as close to the real values as possible, with minimum MSE, maximum R-Squared, and has a very high distiction!
+As shown in the previous subplots and performance table, **Gradient Boosting Regressor** was the best model to predict the average prices as close to the real values as possible, with minimum MSE and maximum R-Squared. In addition, there is a very wide gap between the accuracy of this model and the others!
 
 
 
 ![K-fold](./Figures/2_Gradient_Boosting_CV.png)
-In this figure, comparing 6 different values of k-fold, `k = 10` has the least MSE and most accurate results.
+By applying cross validation to the chosen regressor and comparing 6 different values of k-fold, we noticed that `k = 10` has the least MSE and the most accurate results.
 
-So, our regressor is **Gradient Bossting** and for Cross Validation we have **k=10**. Using these data we can easily build the best model that could predict the prices values as close as possible. And this is the final model, with `MSE = 17.062`:
+According to the previous observations and calculations, the ideal regressor is **Gradient Boosting** and the best k-fold of Cross Validation modeling is **k=10**. Using these data we can easily build the best model that could predict the price values as close as possible. The plot below shows the final model, with `MSE = 17.062`:
 
 ![Final Model](./Figures/3_Final_Model.png)
 
@@ -78,7 +78,7 @@ So, our regressor is **Gradient Bossting** and for Cross Validation we have **k=
 
 ### Discussion
 
-Gradient Boosting was the best among 4 randomly chosen regressors, with a `Mean Square Error = 17.062`. There might be or there're certainly other better methods to solve this problem, with a less chance of error and a better accuracy. These methods could be discoverd by understanding the dataset and studying Data Science field in a deeper way.
+Gradient Boosting was the best at solving the problem among 4 randomly chosen regressors, with a `Mean Square Error of 17.062`. There might be better methods to solve this problem with a less chance of error and a better accuracy. These methods could be discoverd later by understanding the dataset and studying Data Science field in a deeper way.
 
 ### Libraries
 - The main used libraries in this analysis are:
