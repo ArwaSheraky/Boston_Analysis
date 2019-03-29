@@ -10,6 +10,7 @@ This is the final project of CEBD-1160 course, based on Boston housing dataset.
 ### Resources
 This repository includes:
 
+- Simple pseudocode: `Pseudocode.md`
 - Python script for boston-housing-data analysis: `boston_analysis.py`
 - Results figures: `Figures/`
 - Dockerfile for experiment: `Dockerfile`
