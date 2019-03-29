@@ -19,7 +19,7 @@
         * 3.2.2. Calculate performance (RMSE, R-Score)
         * 3.2.3. Plot Expected vs Predicted MEDV
     
-    *3.3. Chooe the best regressor, with minimum MSE.
+    * 3.3. Chooe the best regressor, with minimum MSE.
 
 * 4. Apply Cross Validation to the regressor
     * 4.1. Choose different k-fold
