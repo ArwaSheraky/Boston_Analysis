@@ -24,16 +24,16 @@
 * 4. Apply Cross Validation to the regressor
     * 4.1. Choose different k-fold
     * 4.2. Foreach k:
-    '''
+    ```
         * 4.2.1. Build a Cross Validation model, with cv=k
         * 4.2.2. Calculate MSE, save it to a list
         * 4.3.3. Plot expected vs predicted values for this model
-    '''
+    ```
     * 4.3 Choose the best k (Minimum MSE)
 
 * 5. Build the final Model
     * 5.1. Using previous results:
-        * Regressor: 'Gradient Boosting'.
+        * Regressor: `Gradient Boosting`.
         * CV: k = 10.
     * 5.2. Calculate the accuracy of the model.
     * 5.3. Plot the final model.

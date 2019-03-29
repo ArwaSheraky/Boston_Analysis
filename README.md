@@ -31,7 +31,7 @@ Knowing the average prices of houses and the features that could affect them, co
 The dataset used in this project, is publically shared on scikit-learn [datasets](https://scikit-learn.org/stable/datasets/index.html#boston-dataset), which could be explicitly imported into any python app, from `sklearn` library.
 The data was collected in suburbs of Boston from the 1970s, including 13 features, with the predicted price as the 14th feature/column:
 
-'''
+```
 **CRIM:** Per capita crime rate by town
 **ZN:** Proportion of residential land zoned for lots over 25,000 sq. ft
 **INDUS:** Proportion of non-retail business acres per town
@@ -46,7 +46,7 @@ The data was collected in suburbs of Boston from the 1970s, including 13 feature
 **B:** 1000(Bk — 0.63)², where Bk is the proportion of [people of African American descent] by town
 **LSTAT:** Percentage of lower status of the population
 **MEDV:** Median value of owner-occupied homes in $1000s
-'''
+```
 
 Here's a simple pseudocode of what we're doing in this analysis: [Pseudocode](Pseudocode.md). The main goal of this project, is to build a strong regression model to predict the prices of houses, based on previous trainig data, using the 13 features of each house.
 
@@ -60,7 +60,7 @@ The used regressors are:
     * [Lasso](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lasso.html#sklearn.linear_model.Lasso).
     * [Gradient Boosting](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingRegressor.html#sklearn.ensemble.GradientBoostingRegressor).
 
-The Cross Validation method used, is ['cross_val_predict'](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_predict.html#sklearn.model_selection.cross_val_predict), built by scikit-learn. Using cross validation, with *k-fold = [3, 5, 7, 10, 15, 20]*, We chose the most accurate k and finally, we built the model using these results.
+The Cross Validation method used, is [`cross_val_predict`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_predict.html#sklearn.model_selection.cross_val_predict), built by scikit-learn. Using cross validation, with *k-fold = [3, 5, 7, 10, 15, 20]*, We chose the most accurate k and finally, we built the model using these results.
 
 ### Results
 
@@ -82,8 +82,8 @@ Brief (no more than 1-2 paragraph) description about what you did. Include:
 
 ### Libraries
 The main used libraries in this analysis are:
-    - 'pandas' and 'numpy': Creating Dataframes and calculating statistical summary.
-    - 'matplotlib','seaborn' and 'plotly': Plotting histograms, scatterplots and regression lines.
-    - 'sklearn': Importing the dataset, splitting data, applying regressors and CV and calculating performance.
+    - `pandas` and `numpy`: Creating Dataframes and calculating statistical summary.
+    - `matplotlib`, `seaborn` and `plotly`: Plotting histograms, scatterplots and regression lines.
+    - `sklearn`: Importing the dataset, splitting data, applying regressors and CV and calculating performance.
 
 -------
